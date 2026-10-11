@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VPN Learning Experience</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Tahoma, sans-serif;
+      color: white;
+      background:
+        radial-gradient(ellipse at center, #123b72 0%, #071a38 48%, #020817 100%);
+      overflow: hidden;
+    }
+
+    canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    header {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 7%;
+    }
+
+    .brand {
+      color: #63eaff;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    nav {
+      display: flex;
+      gap: 25px;
+    }
+
+    nav a {
+      color: #d7eaff;
+      text-decoration: none;
+      font-size: 15px;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: #56e9ff;
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      min-height: 78vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 30px 20px 70px;
+    }
+
+    .welcome {
+      color: #d9f8ff;
+      font-size: clamp(22px, 4vw, 34px);
+      margin-bottom: 18px;
+      animation: fadeIn 1.2s ease both;
+    }
+
+    .logo {
+      font-size: clamp(38px, 8vw, 82px);
+      font-weight: 900;
+      line-height: 1.2;
+      letter-spacing: 2px;
+      background: linear-gradient(
+        90deg, #ffffff, #62eaff, #5c9dff, #ffffff
+      );
+      background-size: 250% auto;
+      color: transparent;
+      background-clip: text;
+      -webkit-background-clip: text;
+      filter: drop-shadow(0 0 20px #16cfff88);
+      animation: shine 5s linear infinite, float 4s ease-in-out infinite;
+    }
+
+    .subtitle {
+      color: #b5d9ff;
+      font-size: 17px;
+      line-height: 1.8;
+      margin-top: 22px;
+      max-width: 600px;
+    }
+
+    .start-button {
+      display: inline-block;
+      margin-top: 36px;
+      padding: 15px 38px;
+      border-radius: 40px;
+      background: linear-gradient(90deg, #63f0ff, #258cff);
+      color: #04142b;
+      font-weight: bold;
+      font-size: 17px;
+      text-decoration: none;
+      box-shadow: 0 0 25px #00cfff66;
+      transition: 0.3s;
+    }
+
+    .start-button:hover {
+      transform: translateY(-4px) scale(1.04);
+      box-shadow: 0 0 38px #00dfffaa;
+    }
+
+    .hint {
+      margin-top: 20px;
+      color: #7fa9d8;
+      font-size: 13px;
+    }
+
+    @keyframes shine {
+      to { background-position: 250% center; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      nav {
+        gap: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="network"></canvas>
+
+  <header>
+    <a class="brand" href="index.html">◈ VPN LEARNING</a>
+
+    <nav>
+      <a href="index.html">หน้าแรก</a>
+      <a href="lesson.html">บทเรียน</a>
+    </nav>
+  </header>
+
+  <main>
+    <p class="welcome">ยินดีต้อนรับสู่</p>
+
+    <h1 class="logo">
+      VPN Learning<br>
+      Experience
+    </h1>
+
+    <p class="subtitle">
+      เรียนรู้การใช้งาน VPN เข้าใจหลักการทำงาน
+      และรู้เท่าทันความปลอดภัยบนโลกออนไลน์
+    </p>
+
+    <a class="start-button" href="lesson.html">
+      เริ่มเรียนรู้ →
+    </a>
+
+    <p class="hint">YOUR PRIVACY · YOUR SECURITY · YOUR KNOWLEDGE</p>
+  </main>
+
+  <script>
+    const canvas = document.getElementById("network");
+    const ctx = canvas.getContext("2d");
+
+    let width, height, particles;
+
+    function resizeCanvas() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+
+      const count = Math.min(
+        90,
+        Math.floor((width * height) / 14000)
+      );
+
+      particles = Array.from({ length: count }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+        r: Math.random() * 2 + 1
+      }));
+    }
+
+    function animateNetwork() {
+      ctx.clearRect(0, 0, width, height);
+
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0 || p.x > width) p.vx *= -1;
+        if (p.y < 0 || p.y > height) p.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = "#64eaff";
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = "#00cfff";
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        for (let j = i + 1; j < particles.length; j++) {
+          const q = particles[j];
+          const dx = p.x - q.x;
+          const dy = p.y - q.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < 125) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(q.x, q.y);
+            ctx.strokeStyle =
+              `rgba(70, 190, 255, ${1 - distance / 125})`;
+            ctx.lineWidth = 0.6;
+            ctx.stroke();
+          }
+        }
+      }
+
+      requestAnimationFrame(animateNetwork);
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+    animateNetwork();
+  </script>
+</body>
+</html>
